@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.charles.cursojava.domain.Categoria;
 import com.charles.cursojava.domain.Cidade;
+import com.charles.cursojava.domain.Cliente;
+import com.charles.cursojava.domain.Endereco;
 import com.charles.cursojava.domain.Estado;
 import com.charles.cursojava.domain.Produto;
+import com.charles.cursojava.domain.enums.TipoCliente;
 import com.charles.cursojava.repositories.CategoriaRepository;
 import com.charles.cursojava.repositories.CidadeRepository;
+import com.charles.cursojava.repositories.ClienteRepository;
+import com.charles.cursojava.repositories.EnderecoRepository;
 import com.charles.cursojava.repositories.EstadoRepository;
 import com.charles.cursojava.repositories.ProdutoRepository;
 
@@ -26,6 +31,10 @@ public class CursoApplication implements CommandLineRunner{
 	private CidadeRepository cidadeRepository;
 	@Autowired
 	private EstadoRepository estadoRepository;
+	@Autowired
+	private ClienteRepository clienteRepository;
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursoApplication.class, args);
@@ -63,6 +72,19 @@ public class CursoApplication implements CommandLineRunner{
 		
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com","36378912377", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("27363323","54564654"));
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303","Jardim","3822222",cli1,c1);
+		Endereco e2 = new Endereco(null, "Avenida flores", "105", "Sala 800","Centro","398982",cli1,c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1,e2));
+		
+		//Cliente cli2 = new Cliente(null, "Maria Silva", "maria@gmail.com","36378912377", TipoCliente.PESSOAFISICA);
 	
 	}
 }
