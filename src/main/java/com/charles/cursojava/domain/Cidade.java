@@ -3,8 +3,6 @@ package com.charles.cursojava.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +19,6 @@ public class Cidade implements Serializable{
 	private Integer id;
 	private String nome;
 	
-	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name="esdado_id")
 	private Estado estado;
@@ -35,8 +32,6 @@ public class Cidade implements Serializable{
 		this.nome = nome;
 		this.estado = estado;
 	}
-
-
 
 	public Integer getId() {
 		return id;
