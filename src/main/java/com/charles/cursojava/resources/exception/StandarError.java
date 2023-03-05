@@ -1,6 +1,8 @@
 package com.charles.cursojava.resources.exception;
 
-public class StandarError {
+import java.io.Serializable;
+
+public class StandarError implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer status;
@@ -37,6 +39,4 @@ public class StandarError {
 	public void setTimeStamp(Long timeStamp) {
 		this.timeStamp = timeStamp;
 	}
-	
-	
 }
