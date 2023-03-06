@@ -4,8 +4,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +18,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.charles.cursojava.domain.Categoria;
 import com.charles.cursojava.dto.CategoriaDTO;
 import com.charles.cursojava.services.CategoriaService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value="/categorias")
@@ -74,5 +74,4 @@ public class CategoriaResource {
 		Page<CategoriaDTO> listDTO = list.map(obj -> new CategoriaDTO(obj));
 		return ResponseEntity.ok().body(listDTO);
 	}
-	
 }

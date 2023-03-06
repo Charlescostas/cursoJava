@@ -4,28 +4,33 @@ import java.io.Serializable;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.charles.cursojava.domain.Categoria;
+import com.charles.cursojava.domain.Cliente;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
-
-public class CategoriaDTO implements Serializable {
+public class ClienteDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
 	
 	@NotEmpty(message="Preenchimento obrigatório")
 	@Length(min=5, max=80, message="O tamalnho deve ser entre 5 e 80 caracteres")
-	private String nome; 
-
-	public CategoriaDTO() {
-	}
+	private String nome;
 	
-	public CategoriaDTO(Categoria obj) {
+	@NotEmpty(message="Preenchimento obrigatório")
+	@Email(message="Email inválido")
+	private String email;
+	
+	public ClienteDTO() {
+	}
+
+	public ClienteDTO(Cliente obj) {
 		id = obj.getId();
 		nome = obj.getNome();
+		email = obj.getEmail();				
 	}
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -40,5 +45,15 @@ public class CategoriaDTO implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}	
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	
 }
