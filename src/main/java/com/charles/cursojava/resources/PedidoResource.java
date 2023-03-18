@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.charles.cursojava.domain.Categoria;
 import com.charles.cursojava.domain.Pedido;
-import com.charles.cursojava.dto.CategoriaDTO;
 import com.charles.cursojava.services.PedidoService;
 
 import jakarta.validation.Valid;
