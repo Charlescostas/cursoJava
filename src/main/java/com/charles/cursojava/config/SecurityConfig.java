@@ -39,7 +39,7 @@ public class SecurityConfig {
 
 	private static final String[] PUBLIC_MATCHERS = { "/h2-console/**" };
 	private static final String[] PUBLIC_MATCHERS_GET = { "/produtos/**", "/categorias/**", "/estados/**" };
-	//private static final String[] PUBLIC_MATCHERS_POST = { "/clientes/**", "/auth/forgot/**" };
+	private static final String[] PUBLIC_MATCHERS_POST = { "/clientes/**", "/auth/forgot/**" };
 
  	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -49,7 +49,7 @@ public class SecurityConfig {
 
 		http.cors().and().csrf().disable();
 		http.authorizeHttpRequests().requestMatchers(PUBLIC_MATCHERS).permitAll()
-				//.requestMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
+				.requestMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
 				.requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll().anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtUtil));
 		http.addFilter(new JWTAuthorizationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtUtil, userDetailsService));
