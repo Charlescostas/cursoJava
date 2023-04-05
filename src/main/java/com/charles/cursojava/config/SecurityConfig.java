@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,6 +27,7 @@ import com.charles.cursojava.security.JWTUtil;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
 	@Autowired
@@ -48,9 +50,11 @@ public class SecurityConfig {
 		}
 
 		http.cors().and().csrf().disable();
-		http.authorizeHttpRequests().requestMatchers(PUBLIC_MATCHERS).permitAll()
+		http.authorizeHttpRequests()
+				.requestMatchers(PUBLIC_MATCHERS).permitAll()
 				.requestMatchers(HttpMethod.POST, PUBLIC_MATCHERS_POST).permitAll()
-				.requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll().anyRequest().authenticated();
+				.requestMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
+				.anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtUtil));
 		http.addFilter(new JWTAuthorizationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtUtil, userDetailsService));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -68,9 +72,14 @@ public class SecurityConfig {
  	
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
+		configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-		return source;
+		source.registerCorsConfiguration("/**", configuration);
+		return source;		
+		//final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		//source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		//return source;
 	}
 
 	@Bean
